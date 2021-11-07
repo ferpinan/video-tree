@@ -67,12 +67,6 @@ jobs:
       #    GITHUB_TOKEN: ${{ secrets.REPO_TOKEN }}
       #    source-branch: develop
       #    target-branch: master  
-
-      - uses: planet-code/release-tag-action@1.1.0
-        with:
-          token: ${{ secrets.REPO_TOKEN }}
-          release-branch-format: "release\/"
-          show-changelog: true
           
       - name: 'change version'
         uses: reedyuk/npm-version@1.1.1
