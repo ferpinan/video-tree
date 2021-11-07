@@ -69,7 +69,7 @@ jobs:
       #    target-branch: master  
 
       - name: 'merge release'
-        uses: planet-code/release-tag-action@1.1.0
+        uses: planet-code/release-tag-action@1.0.0
         with:
           token: ${{ secrets.REPO_TOKEN }}
           release-branch-format: "release/"
