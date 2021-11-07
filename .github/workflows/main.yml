@@ -55,10 +55,10 @@ jobs:
           push: true
           tags: ferpinan/video-tree:latest, ferpinan/video-tree:${{ steps.package-node-version.outputs.version }}
       -
-        name: Build and push armv8
+        name: Build and push armv7
         uses: docker/build-push-action@v2
         with:
           context: .
           push: true
-          file: Dockerfile-armv8
-          tags: ferpinan/video-tree:${{ steps.package-node-version.outputs.version }}-arv8
+          file: Dockerfile-armv7
+          tags: ferpinan/video-tree:${{ steps.package-node-version.outputs.version }}-armv7
