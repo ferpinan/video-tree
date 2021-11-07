@@ -33,6 +33,13 @@ jobs:
         run: |
           echo Add other actions to build,
           echo test, and deploy your project.
+          
+      - name: Read package.json
+        uses: dutscher/read-package-json-endpoint-actions@v1.33.7
+        id: package-json-endpoint
+
+      - name: Show version number
+        run: echo "${{ steps.package-json-endpoint.outputs.endpoint }}"
       -
         name: Checkout
         uses: actions/checkout@v2
@@ -54,4 +61,13 @@ jobs:
         with:
           context: .
           push: true
-          tags: ferpinan/video-tree:latest
+          tags: ferpinan/video-tree:latest, ferpinan/video-tree:${{ steps.package-json-endpoint.outputs.endpoint }}
+      
+      
+      # Runs a set of commands using the runners shell
+      - name: Merge
+        run: |
+          git checkout master
+          git merge develop
+          git tag v${{ steps.package-json-endpoint.outputs.endpoint }}
+          git push --tags
