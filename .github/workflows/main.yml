@@ -36,7 +36,7 @@ jobs:
         run: echo "Version is ${{ steps.package-node-version.outputs.version }}"
           
       - name: create release branch
-        run: git checkout -b release/${{ steps.package-node-version.outputs.version }}
+        run: git checkout -b "release/${{ steps.package-node-version.outputs.version }}"
         
       -
         name: Set up QEMU
