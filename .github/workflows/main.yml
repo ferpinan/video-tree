@@ -28,15 +28,15 @@ jobs:
           # Otherwise, uses the default branch.
           ref: 'develop'
           
-      - name: create release branch
-        run: git checkout -b release
-          
       - name: Read package.json
         uses: culshaw/read-package-node-version-actions@v1
         id: package-node-version
 
       - name: Show version number
         run: echo "Version is ${{ steps.package-node-version.outputs.version }}"
+          
+      - name: create release branch
+        run: git checkout -b release/${{ steps.package-node-version.outputs.version }}
       -
         name: Set up QEMU
         uses: docker/setup-qemu-action@v1
@@ -66,19 +66,12 @@ jobs:
       #    GITHUB_TOKEN: ${{ secrets.REPO_TOKEN }}
       #    source-branch: develop
       #    target-branch: master  
-      
-      - uses: yanamura/git-flow-merge-action@v1.2.0
-        with: 
-          ### GITHUB_TOKEN.(required)
-          github_token: ${{ secrets.REPO_TOKEN }}
 
-          ### branch name which merged to develop and master branch.(required)
-          ### ex. release/1.1.0, hotfix_branch
-          branch: '${GITHUB_REF#refs/heads/}release'
-
-          ### tag name which tagged to master.(optional)
-          ### ex. v1.1.0
-          tag: v${{ steps.package-node-version.outputs.version }}
+      - uses: planet-code/release-tag-action@1.1.0
+        with:
+          token: ${{ secrets.REPO_TOKEN }}
+          release-branch-format: "release\/"
+          show-changelog: true
           
       - name: 'change version'
         uses: reedyuk/npm-version@1.1.1
