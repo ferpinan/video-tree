@@ -26,7 +26,7 @@ jobs:
           # The branch, tag or SHA to checkout. When checking out the repository that
           # triggered a workflow, this defaults to the reference or SHA for that event.
           # Otherwise, uses the default branch.
-          ref: 'develop'
+          ref: 'master'
           
       - name: Read package.json
         uses: culshaw/read-package-node-version-actions@v1
@@ -34,9 +34,6 @@ jobs:
 
       - name: Show version number
         run: echo "Version is ${{ steps.package-node-version.outputs.version }}"
-          
-      - name: create release branch
-        run: git checkout -b "release/${{ steps.package-node-version.outputs.version }}"
         
       -
         name: Set up QEMU
@@ -50,38 +47,10 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-      #-
-      #  name: Build and push
-      #  uses: docker/build-push-action@v2
-      #  with:
-      #    context: .
-      #    push: true
-      #    tags: ferpinan/video-tree:latest, ferpinan/video-tree:${{ steps.package-node-version.outputs.version }}
-      
-      
-      # Runs a set of commands using the runners shell
-      
-      #- name: Merge
-      #  uses: tukasz/direct-merge-action@master
-      #  with:
-      #    GITHUB_TOKEN: ${{ secrets.REPO_TOKEN }}
-      #    source-branch: develop
-      #    target-branch: master  
-
-      - name: 'merge release'
-        uses: planet-code/release-tag-action@1.0.0
+      -
+        name: Build and push
+        uses: docker/build-push-action@v2
         with:
-          token: ${{ secrets.REPO_TOKEN }}
-          
-      - name: 'change version'
-        uses: reedyuk/npm-version@1.1.1
-        with:
-          version: '${{ github.event.inputs.logLevel }}'
-          git-tag-version: 'false'
-      
-      # Runs a set of commands using the runners shell
-      - name: Bump version push
-        run: |
-          git add package.json
-          git commit -m "Bump version"
-          git push
+          context: .
+          push: true
+          tags: ferpinan/video-tree:latest, ferpinan/video-tree:${{ steps.package-node-version.outputs.version }}
