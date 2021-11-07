@@ -72,7 +72,6 @@ jobs:
         uses: planet-code/release-tag-action@1.0.0
         with:
           token: ${{ secrets.REPO_TOKEN }}
-          release-branch-format: "release/"
           
       - name: 'change version'
         uses: reedyuk/npm-version@1.1.1
