@@ -26,7 +26,7 @@ jobs:
           # The branch, tag or SHA to checkout. When checking out the repository that
           # triggered a workflow, this defaults to the reference or SHA for that event.
           # Otherwise, uses the default branch.
-          ref: 'develop'
+          ref: 'master'
           
       - name: Read package.json
         uses: culshaw/read-package-node-version-actions@v1
@@ -34,6 +34,7 @@ jobs:
 
       - name: Show version number
         run: echo "Version is ${{ steps.package-node-version.outputs.version }}"
+        
       -
         name: Set up QEMU
         uses: docker/setup-qemu-action@v1
@@ -53,45 +54,3 @@ jobs:
           context: .
           push: true
           tags: ferpinan/video-tree:latest, ferpinan/video-tree:${{ steps.package-node-version.outputs.version }}
-      
-      
-      # Runs a set of commands using the runners shell
-      
-      #- name: Merge
-      #  uses: tukasz/direct-merge-action@master
-      #  with:
-      #    GITHUB_TOKEN: ${{ secrets.REPO_TOKEN }}
-      #    source-branch: develop
-      #    target-branch: master  
-      
-      - uses: yanamura/git-flow-merge-action@v1
-        with: 
-          ### GITHUB_TOKEN.(required)
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-
-          ### branch name which merged to develop and master branch.(required)
-          ### ex. release/1.1.0, hotfix_branch
-          branch: 'develop'
-
-          ### develop branch name. default: develop (optional).
-          develop_branch: 'develop'
-
-          ### main branch name. default: master (optional).
-          main_branch: 'master'
-
-          ### tag name which tagged to master.(optional)
-          ### ex. v1.1.0
-          tag: v${{ steps.package-node-version.outputs.version }}
-          
-      - name: 'change version'
-        uses: reedyuk/npm-version@1.1.1
-        with:
-          version: '${{ github.event.inputs.logLevel }}'
-          git-tag-version: 'false'
-      
-      # Runs a set of commands using the runners shell
-      - name: Bump version push
-        run: |
-          git add package.json
-          git commit -m "Bump version"
-          git push
