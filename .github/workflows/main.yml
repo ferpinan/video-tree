@@ -74,13 +74,7 @@ jobs:
 
           ### branch name which merged to develop and master branch.(required)
           ### ex. release/1.1.0, hotfix_branch
-          branch: 'release'
-
-          ### develop branch name. default: develop (optional).
-          develop_branch: 'develop'
-
-          ### main branch name. default: master (optional).
-          main_branch: 'master'
+          branch: '${GITHUB_REF#refs/heads/}release'
 
           ### tag name which tagged to master.(optional)
           ### ex. v1.1.0
