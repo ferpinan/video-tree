@@ -60,7 +60,7 @@ jobs:
         run: |
           git fetch
           git checkout master
-          git merge develop
+          git merge develop --allow-unrelated-histories
           git tag v${{ steps.package-node-version.outputs.version }}
           git push --tags
           git checkout develop
