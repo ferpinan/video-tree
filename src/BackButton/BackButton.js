@@ -3,6 +3,10 @@ import PropTypes from 'prop-types';
 function BackButton(props) {
     const {onClick, isVisible} = {...props};
 
+    if(!isVisible){
+        return "";
+    }
+
     return (
         <a
             className="App-link"
