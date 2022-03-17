@@ -1,4 +1,4 @@
-import './App.css';
+import './App.scss';
 import FetchFolderContent from "./hooks/FetchFolderContent";
 import React, {useState} from "react";
 import VideoPlayer from "./VideoPlayer/VideoPlayer";
@@ -26,7 +26,6 @@ function App() {
 	};
 
 	const onClickBreadcrumbButton = index => {
-		console.log(index);
 		setCurrentFolder([...currentFolder].slice(0, index+1));
 		setCurrentFile("");
 	};
@@ -51,7 +50,7 @@ function App() {
 				currentFolder={currentFolder}
 				currentFile={currentFile}
 			/>
-			<header className="App-header">
+			<main>
 				<DirectoryList
 					isVisible={currentFile === ""}
 					isBackButtonVisible={currentFolder.length > 1}
@@ -64,7 +63,7 @@ function App() {
 					src={process.env.REACT_APP_HOST + "/videos/" + currentFolder.join("/") + "/" + currentFile}
 					onClickBackButton={() => setCurrentFile("")}
 				/>
-			</header>
+			</main>
 		</div>
 	);
 }
