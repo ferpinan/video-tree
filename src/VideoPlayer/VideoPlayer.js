@@ -1,9 +1,8 @@
 import PropTypes from 'prop-types';
-import BackButton from "../BackButton/BackButton";
 import React, {useState} from "react";
 
 function VideoPlayer(props) {
-    const {onClickBackButton, src, isVisible} = {...props};
+    const {src, isVisible} = {...props};
     const [currentPlaybackRate, setCurrentPlaybackRate] = useState(1);
     const videoRef = React.createRef();
 
@@ -35,7 +34,6 @@ function VideoPlayer(props) {
             <button onClick={onClickFasterButton}>Faster</button>
             <button onClick={onClickResetButton}>Reset Playback Rate</button>
             <p>Current playback rate: {currentPlaybackRate}</p>
-            <BackButton onClick={onClickBackButton} />
         </>
     );
 }
