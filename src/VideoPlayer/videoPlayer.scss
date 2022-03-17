@@ -1,0 +1,24 @@
+.video-player{
+  margin-top: 50px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  video {
+    width: 50%;
+  }
+
+  .playback-rate-controls{
+    width: 50%;
+    background: #141414;
+    padding: 5px 0;
+
+    margin-bottom: 50px;
+    text-align: right;
+
+    svg{
+      margin: 0 10px;
+      cursor: pointer;
+    }
+  }
+}
