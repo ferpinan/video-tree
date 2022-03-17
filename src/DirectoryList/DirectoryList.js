@@ -1,31 +1,27 @@
 import PropTypes from 'prop-types';
-import BackButton from "../BackButton/BackButton";
 
 function DirectoryList(props) {
-    const {folderContent, isVisible, isBackButtonVisible, onClickBackButton, onClickDirectoryButton} = {...props};
+    const {folderContent, isVisible, onClickDirectoryButton} = {...props};
 
     if (!isVisible) {
         return "";
     }
 
     return (
-        <>{
+        <ul>{
             folderContent.map((folderElement, i) => {
-                return <a key={folderElement.name.replaceAll(" ", "_") + i}
-                          onClick={() => onClickDirectoryButton(folderElement)}>{folderElement.name}</a>
+                return <li key={folderElement.name.replaceAll(" ", "_") + i}
+                          onClick={() => onClickDirectoryButton(folderElement)}>{folderElement.name}</li>
             })
         }
-            <BackButton onClick={onClickBackButton} isVisible={isBackButtonVisible}/>
-        </>
+        </ul>
     );
 }
 
 DirectoryList.propTypes = {
-    onClickBackButton: PropTypes.func,
     onClickDirectoryButton: PropTypes.func,
     isVisible: PropTypes.bool,
-    isBackButtonVisible: PropTypes.bool,
-    folderContent: PropTypes.arrayOf(PropTypes.string)
+    folderContent: PropTypes.arrayOf(PropTypes.object)
 };
 
 export default DirectoryList;
