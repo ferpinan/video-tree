@@ -1,0 +1,8 @@
+version: "3.9"
+services:
+  web-test:
+    build:
+      context: .
+      dockerfile: Dockerfile-mock
+    ports:
+      - "8081:80"
