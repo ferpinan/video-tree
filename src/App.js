@@ -4,6 +4,7 @@ import React, {useState} from "react";
 import VideoPlayer from "./VideoPlayer/VideoPlayer";
 import DirectoryList from "./DirectoryList/DirectoryList";
 import NavBar from "./NavBar/NavBar";
+import {isDirectory, isPdfFile} from "./utils/folderElementUtils";
 
 function App() {
 	const [currentFolder, setCurrentFolder] = useState([]);
@@ -11,13 +12,22 @@ function App() {
 
 	const folderContent = FetchFolderContent(currentFolder.join("/") + "/");
 
-	const onClickDirectoryButton = element => {
-		const {name, type} = {...element};
-		if (type === "directory") {
-			setCurrentFolder([...currentFolder, name]);
-		} else {
-			setCurrentFile(name);
+	const getFileAbsolutePath = file => {
+		return process.env.REACT_APP_HOST + "/videos/" + currentFolder.join("/") + "/" + file;
+	}
+	const onClickElementButton = element => {
+		const {name} = {...element};
+		if (isDirectory(element)) {
+			setCurrentFolder([...currentFolder, element.name]);
+			return;
 		}
+		if (isPdfFile(element)) {
+			let fileAbsolutePath = getFileAbsolutePath(element.name);
+			window.open(fileAbsolutePath, '_blank').focus();
+			return;
+		}
+
+		setCurrentFile(name);
 	};
 
 	const onClickHomeButton = () => {
@@ -26,7 +36,7 @@ function App() {
 	};
 
 	const onClickBreadcrumbButton = index => {
-		setCurrentFolder([...currentFolder].slice(0, index+1));
+		setCurrentFolder([...currentFolder].slice(0, index + 1));
 		setCurrentFile("");
 	};
 
@@ -56,11 +66,11 @@ function App() {
 					isBackButtonVisible={currentFolder.length > 1}
 					folderContent={folderContent}
 					onClickBackButton={onClickBackButton}
-					onClickDirectoryButton={onClickDirectoryButton}
+					onClickElementButton={onClickElementButton}
 				/>
 				<VideoPlayer
 					isVisible={currentFile !== ""}
-					src={process.env.REACT_APP_HOST + "/videos/" + currentFolder.join("/") + "/" + currentFile}
+					src={getFileAbsolutePath(currentFile)}
 					onClickBackButton={() => setCurrentFile("")}
 				/>
 			</main>
